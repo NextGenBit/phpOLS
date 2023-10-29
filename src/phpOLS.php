@@ -26,6 +26,11 @@ class phpOLS
         return $this;
     }
 
+    public function getDamos()
+    {
+        return $this->damos;
+    }
+
     public function info(): olsMap
     {
         return $this->mapTable;
@@ -37,6 +42,12 @@ class phpOLS
         $this->mapTable->getAxis('x')?->build($this->binaryFileHandler->readAt($this->mapTable->getAxis('x')->getMapAddress(), $this->mapTable->getAxis('x')->getReadSize()));
         $this->mapTable->getAxis('y')?->build($this->binaryFileHandler->readAt($this->mapTable->getAxis('y')->getMapAddress(), $this->mapTable->getAxis('y')->getReadSize()));
 
+        return $this;
+    }
+
+    public function write($values): self
+    {
+        $this->binaryFileHandler->write($values['table']);
         return $this;
     }
 

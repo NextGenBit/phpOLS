@@ -2,6 +2,8 @@
 
 namespace phpOLS\Service;
 
+use phpOLS\Model\MapValue;
+
 class BinaryFileHandler
 {
     private string $filePath;
@@ -27,10 +29,15 @@ class BinaryFileHandler
         return fread($this->filePointer, $length);
     }
 
-    public function writeAt(int $offset, string $data): void
+    public function write(array $data): void
     {
-        fseek($this->filePointer, $offset);
-        fwrite($this->filePointer, $data);
+        foreach ($data as $value) {
+            if ($value instanceof MapValue) {
+
+                fseek($this->filePointer, $value->getOffset());
+                fwrite($this->filePointer, $value->getWriteValue());
+            }
+        }
     }
 
     public function getFileSize(): int
